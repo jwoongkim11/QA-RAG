@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "qa-rag"
+version = "0.1.0"
+description = ""
+authors = ["jwoongkim11 <rlawodnd1127@gmail.com>"]
+readme = "README.md"
+packages = [{include = "qa_rag", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

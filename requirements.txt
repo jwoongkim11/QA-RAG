@@ -1,0 +1,13 @@
+transformers
+accelerate
+einops
+xformers
+langchain
+openai
+tiktoken
+unstructured
+datasets
+sentence_transformers
+sentencepiece
+faiss-gpu
+langchain-community
