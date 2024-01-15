@@ -3,10 +3,7 @@ import openai
 import argparse
 import pickle
 from config import OPENAI_API_KEY
-from embeddings import get_llm_embedder_model
 from model import DocumentRetriever, AnswerGenerator, FineTunedAnswerRetriever, HyDEGenerator, MultiqueryGenerator, ContextScorer
-from reranker import Reranker
-from initialize_model import initialize_models
 
 # Load models from files
 with open('llm_embedder_model.pkl', 'rb') as f:
@@ -67,6 +64,20 @@ def QA_RAG(question, answer_generator, top_k, top_k_ans, num_docs, num_docs_ans,
     retrieved_answer = answer_generator.get_answer_without_score(client = client, question_example = question_example_fdaexpert, answer_example = answer_example_fdaexpert, final_template = f_template)
     return retrieved_answer
 
+def Multiquery(question, answer_generator, top_k, top_k_ans, num_docs, num_docs_ans, final_k, num_repeats=1, model = reranker.model, tokenizer = reranker.tokenizer):
+    unique_top_contexts, _ = answer_generator.get_combined_top_contexts_with_ft_multiquery(
+        question, num_repeats=num_repeats, top_k=top_k, top_k_ans=top_k_ans, num_docs=num_docs, num_docs_ans = num_docs_ans, final_k=final_k, model = model, tokenizer = tokenizer)
+    f_template = answer_generator.generate_final_template_without_score(question = question, combined_top_contexts = unique_top_contexts, default_prompt = default_prompt_fdaexpert)
+    retrieved_answer = answer_generator.get_answer_without_score(question_example = question_example_fdaexpert, answer_example = answer_example_fdaexpert, final_template = f_template)
+    return retrieved_answer
+
+def HyDE(question, answer_generator, top_k, top_k_ans, num_docs, num_docs_ans, final_k, num_repeats=1, model = reranker.model, tokenizer = reranker.tokenizer):
+    unique_top_contexts, _ = answer_generator.get_combined_top_contexts_with_HyDE(
+        question, num_repeats=num_repeats, top_k=top_k, top_k_ans=top_k_ans, num_docs=num_docs, num_docs_ans = num_docs_ans, final_k=final_k, model = model, tokenizer = tokenizer)
+    f_template = answer_generator.generate_final_template_without_score(question = question, combined_top_contexts = unique_top_contexts, default_prompt = default_prompt_fdaexpert)
+    retrieved_answer = answer_generator.get_answer_without_score(question_example = question_example_fdaexpert, answer_example = answer_example_fdaexpert, final_template = f_template)
+    return retrieved_answer
+
 if __name__ == "__main__":
     # Initialize the argument parser
     parser = argparse.ArgumentParser(description="Parameters for the execution of QA-RAG")
@@ -79,12 +90,14 @@ if __name__ == "__main__":
     parser.add_argument('--num_docs_ans', type=int, default=12, help='Number of documents for initial retrieval from the answer')
     parser.add_argument('--final_k', type=int, default=6, help='Number of final top documents to return after reranking')
     parser.add_argument('--num_repeats', type=int, default=1, help='Number of repeats for answer retrieval')
+    parser.add_argument('--method', type=str, choices=['QA_RAG', 'Multiquery', 'HyDE'], required=True, help='Choose the method to use: QA_RAG, Multiquery, or HyDE')
 
     # Parse the arguments
     args = parser.parse_args()
 
-    # Use the parsed arguments
-    retrieved_answer = QA_RAG(
+
+    if args.method == 'QA_RAG':
+        retrieved_answer = QA_RAG(
         question=args.question,
         answer_generator=answer_generator,
         top_k=args.top_k,
@@ -93,7 +106,29 @@ if __name__ == "__main__":
         num_docs_ans=args.num_docs_ans,
         final_k=args.final_k,
         num_repeats=args.num_repeats
-    )
+        )
+    elif args.method == 'Multiquery':
+        retrieved_answer = Multiquery(
+        question=args.question,
+        answer_generator=answer_generator,
+        top_k=args.top_k,
+        top_k_ans=args.top_k_ans,
+        num_docs=args.num_docs,
+        num_docs_ans=args.num_docs_ans,
+        final_k=args.final_k,
+        num_repeats=args.num_repeats    
+        )
+    elif args.method == 'HyDE':
+        retrieved_answer = HyDE(
+        question=args.question,
+        answer_generator=answer_generator,
+        top_k=args.top_k,
+        top_k_ans=args.top_k_ans,
+        num_docs=args.num_docs,
+        num_docs_ans=args.num_docs_ans,
+        final_k=args.final_k,
+        num_repeats=args.num_repeats
+        )
 
     # Print the retrieved answer
     print(retrieved_answer)
