@@ -3,6 +3,8 @@ Code for the paper, From RAG to QA-RAG: Integrating Generative AI for Pharmaceut
 
 This repository contains the source code for the QA-RAG (Question and Answer Retrieval Augmented Generation) model, a tool designed for the pharmaceutical regulatory compliance domain. It integrates generative AI and RAG methodologies to efficiently navigate complex regulatory guidelines, providing accurate and relevant information through a Q&A format.
 
+![QA-RAG Model](./QA_RAG.jpg)
+
 ---
 
 ### Getting Started
@@ -14,8 +16,16 @@ This repository contains the source code for the QA-RAG (Question and Answer Ret
     ```python
     !pip install -r requirements.txt
     ```
+2. **Add OpenAI API Key to Config File**
 
-2. **Initialize Models**
+   Open the config.py file and insert your OpenAI API key. 
+
+    ```python
+    # In config.py
+    OPENAI_API_KEY = "Your-OpenAI-API-Key-Here"
+    ```
+    
+3. **Initialize Models**
     
    Run the script `initialize_model.py` to download and set up the embedding and reranker models.
       
@@ -23,7 +33,7 @@ This repository contains the source code for the QA-RAG (Question and Answer Ret
     !python initialize_model.py
     ```
 
-3. **Run the Model**
+4. **Run the Model**
    
    Use `main.py` to execute the model. Here's the basic command structure:
       
