@@ -64,9 +64,9 @@ def QA_RAG(question, answer_generator, top_k, top_k_ans, num_docs, num_docs_ans,
     retrieved_answer = answer_generator.get_answer_without_score(client = client, question_example = question_example_fdaexpert, answer_example = answer_example_fdaexpert, final_template = f_template)
     return retrieved_answer
 
-def Multiquery(question, answer_generator, top_k, top_k_ans, num_docs, num_docs_ans, final_k, num_repeats=1, model = reranker.model, tokenizer = reranker.tokenizer):
+def Multiquery(question, answer_generator, top_k, top_k_ans, num_docs, num_docs_ans, final_k, unique_num = 2, num_repeats=1, model = reranker.model, tokenizer = reranker.tokenizer):
     unique_top_contexts, _ = answer_generator.get_combined_top_contexts_with_ft_multiquery(
-        question, num_repeats=num_repeats, top_k=top_k, top_k_ans=top_k_ans, num_docs=num_docs, num_docs_ans = num_docs_ans, final_k=final_k, model = model, tokenizer = tokenizer)
+        question, num_repeats=num_repeats, top_k=top_k, top_k_ans=top_k_ans, num_docs=num_docs, num_docs_ans = num_docs_ans, unique_num = unique_num, final_k = final_k, model = model, tokenizer = tokenizer)
     f_template = answer_generator.generate_final_template_without_score(question = question, combined_top_contexts = unique_top_contexts, default_prompt = default_prompt_fdaexpert)
     retrieved_answer = answer_generator.get_answer_without_score(question_example = question_example_fdaexpert, answer_example = answer_example_fdaexpert, final_template = f_template)
     return retrieved_answer
@@ -75,7 +75,7 @@ def HyDE(question, answer_generator, top_k, top_k_ans, num_docs, num_docs_ans, f
     unique_top_contexts, _ = answer_generator.get_combined_top_contexts_with_HyDE(
         question, num_repeats=num_repeats, top_k=top_k, top_k_ans=top_k_ans, num_docs=num_docs, num_docs_ans = num_docs_ans, final_k=final_k, model = model, tokenizer = tokenizer)
     f_template = answer_generator.generate_final_template_without_score(question = question, combined_top_contexts = unique_top_contexts, default_prompt = default_prompt_fdaexpert)
-    retrieved_answer = answer_generator.get_answer_without_score(question_example = question_example_fdaexpert, answer_example = answer_example_fdaexpert, final_template = f_template)
+    retrieved_answer = answer_generator.get_answer_without_score(client = client, question_example = question_example_fdaexpert, answer_example = answer_example_fdaexpert, final_template = f_template)
     return retrieved_answer
 
 if __name__ == "__main__":
