@@ -47,11 +47,21 @@ This repository contains the source code for the QA-RAG (Question and Answer Ret
    
 
     **Example**
-   
+   - Using QA_RAG:
     ```python
     !python main.py --question "How can I get the information of FDA?" --top_k 3 --top_k_ans 3 --num_docs 5 --num_docs_ans 5 --final_k 2 --method QA_RAG
     ```
 
+   - Using Multiquery:
+    ```python
+    !python main.py --question "What are the latest FDA guidelines for clinical trials?" --top_k 3 --top_k_ans 3 --num_docs 5 --num_docs_ans 5 --final_k 2 --method Multiquery
+    ```
+
+   - Using HyDE:
+    ```python
+   !python main.py --question "What are the requirements for drug labeling as per FDA?" --top_k 5 --top_k_ans 5 --num_docs 7 --num_docs_ans 7 --final_k 4 --method HyDE
+    ```
+        
 ---
 
 ### Repository Structure
@@ -70,6 +80,6 @@ This repository contains the source code for the QA-RAG (Question and Answer Ret
 ---
 
 ### Experimental Data
-**Dataset**: The dataset that was used in the experiments in the paper is included. It's composed of real-world questions and answers related to FDA guidelines.
+**Dataset**: The dataset that was used in the experiments in the paper is included. It's composed of real-world questions and answers related to FDA guidelines. The full dataset used for the finetuning is available [here](https://huggingface.co/datasets/Jaymax/FDA_Pharmaceuticals_FAQ).
 
 **Results Data**: Alongside the dataset, the results data obtained from running the experiments is included
