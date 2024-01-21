@@ -5,6 +5,12 @@ This repository contains the source code for the QA-RAG (Question and Answer Ret
 
 ![QA-RAG Model](./QA_RAG.jpg)
 
+
+   **Important Note**
+   
+   Unfortunately, due to current OpenAI policies, the QA-RAG model can only be operated using the API key of the person who performed the fine-tuning. This means that until policy changes, it is not possible for others to run the QA-RAG model directly. However, for those interested in experimenting with aspects of the research, the repository provides resources to conduct experiments using Multiquery, HyDE methodologies, or the "Only question" approach. Additionally, users can perform their own fine-tuning using the provided dataset and then modify the FineTunedAnswerRetriever class to work with their newly fine-tuned model. This offers a way to customize the QA-RAG model for specific needs or datasets.
+
+
 ---
 
 ### Getting Started
@@ -54,7 +60,7 @@ This repository contains the source code for the QA-RAG (Question and Answer Ret
     --final_k: Number of final top documents to return after reranking.
    
     --method: Specific method to use. Choose the method to use: QA_RAG, Multiquery, or HyDE
-   
+
 
     **Example**
    - Using QA_RAG:
