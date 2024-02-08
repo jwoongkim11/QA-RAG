@@ -1,5 +1,5 @@
 # QA-RAG
-Code for the paper, From RAG to QA-RAG: Integrating Generative AI for Pharmaceutical Regulatory Compliance Process
+Code for the paper, From RAG to QA-RAG: Integrating Generative AI for Pharmaceutical Regulatory Compliance Process(https://arxiv.org/abs/2402.01717)
 
 This repository contains the source code for the QA-RAG (Question and Answer Retrieval Augmented Generation) model, a tool designed for the pharmaceutical regulatory compliance domain. It integrates generative AI and RAG methodologies to efficiently navigate complex regulatory guidelines, providing accurate and relevant information through a Q&A format.
 
