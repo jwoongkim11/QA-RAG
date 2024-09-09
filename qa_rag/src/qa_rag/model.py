@@ -62,7 +62,7 @@ class DocumentRetriever:
         else:
             qa = question
 
-        vectordb = FAISS.load_local(self.persist_directory, embeddings = self.llm_embedder_model)
+        vectordb = FAISS.load_local(self.persist_directory, embeddings = self.llm_embedder_model, allow_dangerous_deserialization=True)
 
         if 'rel_doc' in locals():
             target_word = modify_document(rel_doc)
@@ -115,7 +115,7 @@ class DocumentRetriever:
         else:
             qa = q_temp
 
-        vectordb = FAISS.load_local(self.persist_directory, embeddings = self.llm_embedder_model)
+        vectordb = FAISS.load_local(self.persist_directory, embeddings = self.llm_embedder_model, allow_dangerous_deserialization=True)
 
         relevant_documents = []
 
@@ -797,7 +797,7 @@ class AnswerGenerator:
             removed_contexts.extend(removed_contexts_from_answers)
 
         if top_k > 0:  
-            contexts_q = self.get_contexts_using_multiquery(questions, top_k, num_docs, unique_num, model, tokenizer)
+            contexts_q = self.get_contexts_using_multiquery(questions, top_k, num_docs, model, tokenizer)
             context_generator = UniqueContextGenerator(contexts_q)
             unique_top_contexts_from_questions, removed_contexts_from_questions = context_generator.get_unique_contexts()
             unique_top_contexts.extend(unique_top_contexts_from_questions)
